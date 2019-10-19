@@ -1,12 +1,23 @@
 {
   "name": "drugstore-api",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "API for Drugstore app",
+  "main": "dist/server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/EmelyanovSI/drugstore-api.git"
+  },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/EmelyanovSI/drugstore-api/issues"
+  },
+  "homepage": "https://github.com/EmelyanovSI/drugstore-api#readme",
+  "dependencies": {
+    "@types/express": "^4.17.1"
+  }
 }
