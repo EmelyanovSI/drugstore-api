@@ -4,8 +4,8 @@ import express = require('express');
 import bodyParser = require('body-parser');
 import passport = require('passport');
 
-import { Request, Response, NextFunction } from 'express';
-import { ServerError } from './types/error';
+import {Request, Response, NextFunction} from 'express';
+import {ServerError} from './types/error';
 
 // require('./api/models/db');
 // require('./api/config/passport');
