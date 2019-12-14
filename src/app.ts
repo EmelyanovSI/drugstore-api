@@ -2,7 +2,6 @@ require('dotenv').config();
 
 import express = require('express');
 import bodyParser = require('body-parser');
-import passport = require('passport');
 
 import {Request, Response, NextFunction} from 'express';
 import {ServerError} from './types/error';
@@ -28,7 +27,6 @@ app.use((req: Request, res: Response, next: NextFunction) => {
     }
 });
 
-app.use(passport.initialize());
 app.use('/', routes);
 
 app.use((req: Request, res: Response, next: NextFunction) => {
