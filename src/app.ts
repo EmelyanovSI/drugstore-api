@@ -7,10 +7,9 @@ import passport = require('passport');
 import {Request, Response, NextFunction} from 'express';
 import {ServerError} from './types/error';
 
-// require('./api/models/db');
-// require('./api/config/passport');
+require('./api/models/db');
 
-// const routes = require('./api/routes/index');
+const routes = require('./api/routes/index');
 
 const app = express();
 
@@ -25,12 +24,12 @@ app.use((req: Request, res: Response, next: NextFunction) => {
         res.header('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE');
         res.status(200).json({});
     } else {
-        next();  //?
+        next();
     }
 });
 
 app.use(passport.initialize());
-// app.use('/', routes);
+app.use('/', routes);
 
 app.use((req: Request, res: Response, next: NextFunction) => {
     const error = new ServerError('Not found');
