@@ -1,5 +1,7 @@
 import mongoose = require('mongoose');
 
+const ObjectId = mongoose.Schema.Types.ObjectId;
+
 const substanceSchema = new mongoose.Schema({
     name: {
         type: String,
@@ -12,6 +14,10 @@ const substanceSchema = new mongoose.Schema({
 });
 
 const drugSchema = new mongoose.Schema({
+    country: {
+        type: ObjectId,
+        required: true
+    },
     name: {
         type: String,
         required: true
