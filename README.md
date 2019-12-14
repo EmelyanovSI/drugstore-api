@@ -4,7 +4,7 @@ API for Drugstore app
 
 ## API Info
 
-Primary address: [https://example.herokuapp.com](https://example.herokuapp.com)
+Primary address: [https://drugstore-api-gsu-by.herokuapp.com](https://drugstore-api-gsu-by.herokuapp.com)
 
 ***
 
