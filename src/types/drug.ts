@@ -1,5 +1,5 @@
-import {Document} from 'mongoose';
-import {Substance} from './substance';
+import { Document } from 'mongoose';
+import { Substance } from './substance';
 
 export interface Drug {
     country: string;

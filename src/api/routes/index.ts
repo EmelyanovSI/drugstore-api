@@ -1,4 +1,4 @@
-import {Router} from 'express';
+import { Router } from 'express';
 
 const drugs = require('../controllers/drugs');
 const countries = require('../controllers/countries');

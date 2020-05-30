@@ -3,8 +3,8 @@ require('dotenv').config();
 import express = require('express');
 import bodyParser = require('body-parser');
 
-import {Request, Response, NextFunction} from 'express';
-import {ServerError} from './types/error';
+import { Request, Response, NextFunction } from 'express';
+import { ServerError } from './types/error';
 
 require('./api/models/db');
 
@@ -14,7 +14,7 @@ const app = express();
 
 app.use(bodyParser.json());
 app.use(bodyParser.text());
-app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use((req: Request, res: Response, next: NextFunction) => {
     res.header('Access-Control-Allow-Origin', process.env.ALLOWED_ORIGINS);

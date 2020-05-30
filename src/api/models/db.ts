@@ -2,7 +2,7 @@ import mongoose = require('mongoose');
 
 const URI = process.env.DB_URI;
 
-mongoose.connect(URI, {useUnifiedTopology: true, useNewUrlParser: true});
+mongoose.connect(URI, { useUnifiedTopology: true, useNewUrlParser: true });
 
 function shutdown(callback: Function) {
     mongoose.connection.close(() => {
