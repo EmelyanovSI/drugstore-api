@@ -10,6 +10,7 @@ router.get('/drugs/:id', drugs.get);
 router.post('/drugs', drugs.create);
 router.put('/drugs/:id', drugs.update);
 router.delete('/drugs/:id', drugs.remove);
+router.post('/:country/drugs', drugs.getByCountry);
 
 router.get('/countries', countries.getAll);
 router.get('/countries/:id', countries.get);

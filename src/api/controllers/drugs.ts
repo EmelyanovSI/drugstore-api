@@ -62,5 +62,10 @@ export = {
                     message: 'Id not found'
                 });
         });
+    },
+    getByCountry: (req: Request, res: Response, next: NextFunction) => {
+        model.find({ country: { $eq: req.body._id } }).exec((err, drugs) => {
+            err ? res.status(400).json(err) : res.status(200).json(drugs);
+        });
     }
 };
