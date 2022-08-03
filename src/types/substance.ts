@@ -2,8 +2,7 @@ import { Document } from 'mongoose';
 
 export interface Substance {
     name: string;
-    activeSubstance: boolean
+    activeSubstance: boolean;
 }
 
-export interface SubstanceDocument extends Document, Substance {
-}
+export interface SubstanceDocument extends Document, Substance {}

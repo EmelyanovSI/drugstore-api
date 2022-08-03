@@ -8,5 +8,4 @@ export interface Drug {
     cost: number;
 }
 
-export interface DrugDocument extends Document, Drug {
-}
+export interface DrugDocument extends Document, Drug {}

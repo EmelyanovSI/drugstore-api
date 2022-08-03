@@ -4,5 +4,4 @@ export interface Country {
     name: string;
 }
 
-export interface CountryDocument extends Document, Country {
-}
+export interface CountryDocument extends Document, Country {}

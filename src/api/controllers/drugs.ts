@@ -18,9 +18,9 @@ export = {
         model.findById(req.params.id).exec((err: ServerError, drug: DrugDocument) => {
             err ? res.status(404).json(err)
                 : drug ? res.status(200).json(drug)
-                : res.status(404).json({
-                    message: 'Id not found'
-                });
+                    : res.status(404).json({
+                        message: 'Id not found'
+                    });
         });
     },
     create: (req: Request, res: Response, next: NextFunction) => {
@@ -57,10 +57,11 @@ export = {
     remove: (req: Request, res: Response, next: NextFunction) => {
         model.findOneAndDelete({ _id: req.params.id }).exec((err: ServerError, drug: DrugDocument) => {
             err ? res.status(404).json(err)
-                : drug ? res.status(204).json(null)
-                : res.status(404).json({
-                    message: 'Id not found'
-                });
+                : drug
+                    ? res.status(204).json(null)
+                    : res.status(404).json({
+                        message: 'Id not found'
+                    });
         });
     },
     getByCountry: (req: Request, res: Response, next: NextFunction) => {
