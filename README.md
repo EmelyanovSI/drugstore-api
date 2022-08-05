@@ -1,10 +1,14 @@
 # drugstore-api
 
-API for Drugstore app
+Drugstore project [API](https://drugstore-api-express.herokuapp.com)
 
 ## API Info
 
-Primary address: [https://drugstore-api-gsu-by.herokuapp.com](https://drugstore-api-gsu-by.herokuapp.com)
+Primary address: [drugstore-api-express.herokuapp.com](https://drugstore-api-express.herokuapp.com)
+
+API Design Documentation ~~made~~ with [Swagger](https://swagger.io) `in future`
+
+Documentation route: [/api-docs](https://drugstore-api-php.herokuapp.com/api-docs) `in future`
 
 ***
 

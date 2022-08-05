@@ -1,7 +1,15 @@
-import http = require('http');
+import App from '@/app';
+import IndexRoute from '@routes/index.route';
+import DrugsRoute from '@routes/drugs.route';
+import CountriesRoute from '@routes/countries.route';
+import validateEnv from '@utils/validateEnv';
 
-const app = require('./app');
-const port = +process.env.PORT || 3000;
-const server = http.createServer(app);
+validateEnv();
 
-server.listen(port, '0.0.0.0');
+const app = new App([
+    new IndexRoute(),
+    new DrugsRoute(),
+    new CountriesRoute()
+]);
+
+app.listen();

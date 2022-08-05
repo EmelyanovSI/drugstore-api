@@ -1,42 +1,84 @@
-require('dotenv').config();
+import compression from 'compression';
+import cookieParser from 'cookie-parser';
+import cors from 'cors';
+import express from 'express';
+import helmet from 'helmet';
+import hpp from 'hpp';
+import morgan from 'morgan';
+import { connect, set, connection } from 'mongoose';
+import { NODE_ENV, PORT, LOG_FORMAT, ORIGIN, CREDENTIALS } from '@config';
+import { dbConnection } from '@databases';
+import { Routes } from '@interfaces/routes.interface';
+import errorMiddleware from '@middlewares/error.middleware';
+import { logger, stream } from '@utils/logger';
 
-import express = require('express');
-import bodyParser = require('body-parser');
+class App {
+    public app: express.Application;
+    public env: string;
+    public port: string | number;
 
-import { Request, Response, NextFunction } from 'express';
-import { ServerError } from './types/error';
+    constructor(routes: Routes[]) {
+        this.app = express();
+        this.env = NODE_ENV || 'development';
+        this.port = PORT || 3000;
 
-require('./api/models/db');
-
-const routes = require('./api/routes/index');
-
-const app = express();
-
-app.use(bodyParser.json());
-app.use(bodyParser.text());
-app.use(bodyParser.urlencoded({ extended: false }));
-
-app.use((req: Request, res: Response, next: NextFunction) => {
-    res.header('Access-Control-Allow-Origin', process.env.ALLOWED_ORIGINS);
-    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
-    if (req.method === 'OPTIONS') {
-        res.header('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE');
-        res.status(200).json({});
-    } else {
-        next();
+        this.connectToDatabase();
+        this.initializeMiddlewares();
+        this.initializeRoutes(routes);
+        this.initializeErrorHandling();
     }
-});
 
-app.use('/', routes);
+    public listen() {
+        this.app.listen(this.port, () => {
+            logger.info(`=================================`);
+            logger.info(`======= ENV: ${this.env} =======`);
+            logger.info(`🚀 App listening on the port ${this.port}`);
+            logger.info(`=================================`);
+        });
+    }
 
-app.use((req: Request, res: Response, next: NextFunction) => {
-    const error = new ServerError('Not found');
-    error.status = 404;
-    next(error);
-});
+    public getServer() {
+        return this.app;
+    }
 
-app.use((err: ServerError, req: Request, res: Response, next: NextFunction) => {
-    res.status(err.status || 500).json(err);
-});
+    private connectToDatabase() {
+        if (this.env !== 'production') {
+            set('debug', true);
+        }
 
-export = app;
+        connect(dbConnection).then(() => {
+            logger.info('The database is connected.');
+        }).catch((error: Error) => {
+            logger.error(`Unable to connect to the database: ${error}.`);
+        });
+
+        const disconnect = callback => connection.close(callback);
+
+        process.once('SIGUSR2', () => disconnect(() => process.kill(process.pid, 'SIGUSR2')));
+        process.on('SIGTERM', () => disconnect(() => process.exit()));
+        process.on('SIGINT', () => disconnect(() => process.exit()));
+    }
+
+    private initializeMiddlewares() {
+        this.app.use(morgan(LOG_FORMAT, { stream }));
+        this.app.use(cors({ origin: ORIGIN, credentials: CREDENTIALS }));
+        this.app.use(hpp());
+        this.app.use(helmet());
+        this.app.use(compression());
+        this.app.use(express.json());
+        this.app.use(express.urlencoded({ extended: true }));
+        this.app.use(cookieParser());
+    }
+
+    private initializeRoutes(routes: Routes[]) {
+        routes.forEach(route => {
+            this.app.use('/', route.router);
+        });
+    }
+
+    private initializeErrorHandling() {
+        this.app.use(errorMiddleware);
+    }
+}
+
+export default App;
