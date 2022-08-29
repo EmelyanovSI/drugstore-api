@@ -16,6 +16,7 @@ class DrugsRoute implements Routes {
         this.router.get(`${this.path}/:id`, this.drugsController.getDrugById);
         this.router.get(`/:country${this.path}`, this.drugsController.getDrugsByCountry);
         this.router.post(`${this.path}`, this.drugsController.createDrug);
+        this.router.post(`${this.path}/list`, this.drugsController.getDrugsByIds);
         this.router.put(`${this.path}/:id`, this.drugsController.updateDrug);
         this.router.delete(`${this.path}/:id`, this.drugsController.deleteDrug);
     }

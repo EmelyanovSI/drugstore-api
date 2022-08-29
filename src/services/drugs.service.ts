@@ -35,6 +35,15 @@ class DrugsService {
         return await drugsModel.create({ ...drugData });
     }
 
+    public async findDrugsByIds(drugsIds: Array<string>): Promise<Array<Drug>> {
+        if (isEmpty(drugsIds)) throw new HttpException(400, 'DrugsIds is empty');
+
+        const findDrugs: Array<Drug> = await drugsModel.find({ _id: { $in: drugsIds } });
+        if (!findDrugs) throw new HttpException(409, 'Drugs doesn\'t exist');
+
+        return findDrugs;
+    }
+
     public async updateDrug(drugId: string, drugData: Drug): Promise<Drug> {
         if (isEmpty(drugData)) throw new HttpException(400, 'DrugData is empty');
 

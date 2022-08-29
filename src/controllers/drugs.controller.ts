@@ -48,6 +48,17 @@ class DrugsController {
         }
     };
 
+    public getDrugsByIds = async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const drugsIds: Array<string> = req.body;
+            const findDrugsData: Array<Drug> = await this.drugService.findDrugsByIds(drugsIds);
+
+            res.status(200).json({ data: findDrugsData, message: 'findQuery' });
+        } catch (error) {
+            next(error);
+        }
+    };
+
     public updateDrug = async (req: Request, res: Response, next: NextFunction) => {
         try {
             const drugId: string = req.params.id;
