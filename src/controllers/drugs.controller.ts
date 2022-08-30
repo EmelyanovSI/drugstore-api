@@ -81,6 +81,17 @@ class DrugsController {
             next(error);
         }
     };
+
+    public deleteDrugsByIds = async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const drugsIds: Array<string> = req.body;
+            const deletedCount: number = await this.drugService.deleteDrugsByIds(drugsIds);
+
+            res.status(200).json({ data: { deletedCount }, message: 'deleted' });
+        } catch (error) {
+            next(error);
+        }
+    };
 }
 
 export default DrugsController;

@@ -59,6 +59,13 @@ class DrugsService {
 
         return deleteDrugById;
     }
+
+    public async deleteDrugsByIds(drugsIds: Array<string>): Promise<number> {
+        const { deletedCount } = await drugsModel.deleteMany({ _id: { $in: drugsIds } });
+        if (!deletedCount) throw new HttpException(409, 'Drugs doesn\'t exist');
+
+        return deletedCount;
+    }
 }
 
 export default DrugsService;
