@@ -5,7 +5,7 @@ import DrugsService from '@services/drugs.service';
 class DrugsController {
     public drugService = new DrugsService();
 
-    public getDrugs = async (req: Request, res: Response, next: NextFunction) => {
+    public getAllDrugs = async (req: Request, res: Response, next: NextFunction) => {
         try {
             const findAllDrugsData: Array<Drug> = await this.drugService.findAllDrugs();
 
@@ -15,12 +15,29 @@ class DrugsController {
         }
     };
 
-    public getDrugById = async (req: Request, res: Response, next: NextFunction) => {
+    public getAllDrugsCount = async (req: Request, res: Response, next: NextFunction) => {
         try {
-            const drugId: string = req.params.id;
-            const findOneDrugData: Drug = await this.drugService.findDrugById(drugId);
+            const count: number = await this.drugService.countAllDrugs();
+            res.status(200).json({ data: { count }, message: 'findCount' });
+        } catch (error) {
+            next(error);
+        }
+    };
 
-            res.status(200).json({ data: findOneDrugData, message: 'findOne' });
+    public getAllDrugsPage = async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const pageNumber: number = +req.params.number;
+            const listCount: number = +req.params.count;
+            const skipCount = pageNumber * listCount;
+            const drugsCount: number = await this.drugService.countAllDrugs();
+            const findDrugsData: Array<Drug> = await this.drugService.findDrugsPage(skipCount, listCount);
+            res.status(200).json({
+                data: {
+                    count: drugsCount,
+                    drugs: findDrugsData
+                },
+                message: 'findSome'
+            });
         } catch (error) {
             next(error);
         }
@@ -32,6 +49,47 @@ class DrugsController {
             const findDrugsData: Array<Drug> = await this.drugService.findDrugsByCountry(countryId);
 
             res.status(200).json({ data: findDrugsData, message: 'findQuery' });
+        } catch (error) {
+            next(error);
+        }
+    };
+
+    public getDrugsCountByCountry = async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const countryId: string = req.params.country;
+            const count: number = await this.drugService.countDrugsByCountry(countryId);
+            res.status(200).json({ data: { count }, message: 'findCount' });
+        } catch (error) {
+            next(error);
+        }
+    };
+
+    public getDrugsPageByCountry = async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const countryId: string = req.params.country;
+            const pageNumber: number = +req.params.number;
+            const listCount: number = +req.params.count;
+            const skipCount = pageNumber * listCount;
+            const drugsCount: number = await this.drugService.countDrugsByCountry(countryId);
+            const findDrugsData: Array<Drug> = await this.drugService.findDrugsPageByCountry(countryId, skipCount, listCount);
+            res.status(200).json({
+                data: {
+                    count: drugsCount,
+                    drugs: findDrugsData
+                },
+                message: 'findSome'
+            });
+        } catch (error) {
+            next(error);
+        }
+    };
+
+    public getDrugById = async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const drugId: string = req.params.id;
+            const findOneDrugData: Drug = await this.drugService.findDrugById(drugId);
+
+            res.status(200).json({ data: findOneDrugData, message: 'findOne' });
         } catch (error) {
             next(error);
         }

@@ -8,13 +8,12 @@ class DrugsService {
         return drugsModel.find();
     }
 
-    public async findDrugById(drugId: string): Promise<Drug> {
-        if (isEmpty(drugId)) throw new HttpException(400, 'DrugId is empty');
+    public async countAllDrugs(): Promise<number> {
+        return drugsModel.countDocuments({});
+    }
 
-        const findDrug: Drug = await drugsModel.findOne({ _id: drugId });
-        if (!findDrug) throw new HttpException(409, 'Drug doesn\'t exist');
-
-        return findDrug;
+    public async findDrugsPage(skip: number, limit: number): Promise<Array<Drug>> {
+        return drugsModel.find().skip(skip).limit(limit);
     }
 
     public async findDrugsByCountry(countryId: string): Promise<Array<Drug>> {
@@ -24,6 +23,23 @@ class DrugsService {
         if (!findDrugs) throw new HttpException(409, 'Drugs doesn\'t exist');
 
         return findDrugs;
+    }
+
+    public async countDrugsByCountry(countryId: string): Promise<number> {
+        return drugsModel.countDocuments({ country: countryId });
+    }
+
+    public async findDrugsPageByCountry(countryId: string, skip: number, limit: number): Promise<Array<Drug>> {
+        return drugsModel.find({ country: countryId }).skip(skip).limit(limit);
+    }
+
+    public async findDrugById(drugId: string): Promise<Drug> {
+        if (isEmpty(drugId)) throw new HttpException(400, 'DrugId is empty');
+
+        const findDrug: Drug = await drugsModel.findOne({ _id: drugId });
+        if (!findDrug) throw new HttpException(409, 'Drug doesn\'t exist');
+
+        return findDrug;
     }
 
     public async createDrug(drugData: Drug): Promise<Drug> {
