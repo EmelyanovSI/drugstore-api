@@ -3,11 +3,11 @@ import { Country } from '@interfaces/countries.interface';
 import CountriesService from '@services/countries.service';
 
 class CountriesController {
-    public countryService = new CountriesService();
+    public countries = new CountriesService();
 
     public getCountries = async (req: Request, res: Response, next: NextFunction) => {
         try {
-            const findAllCountriesData: Array<Country> = await this.countryService.findAllCountries();
+            const findAllCountriesData: Array<Country> = await this.countries.findAllCountries();
 
             res.status(200).json({ data: findAllCountriesData, message: 'findAll' });
         } catch (error) {
@@ -18,7 +18,7 @@ class CountriesController {
     public getCountryById = async (req: Request, res: Response, next: NextFunction) => {
         try {
             const countryId: string = req.params.id;
-            const findOneCountryData: Country = await this.countryService.findCountryById(countryId);
+            const findOneCountryData: Country = await this.countries.findCountryById(countryId);
 
             res.status(200).json({ data: findOneCountryData, message: 'findOne' });
         } catch (error) {
@@ -29,7 +29,7 @@ class CountriesController {
     public createCountry = async (req: Request, res: Response, next: NextFunction) => {
         try {
             const countryData: Country = req.body;
-            const createCountryData: Country = await this.countryService.createCountry(countryData);
+            const createCountryData: Country = await this.countries.createCountry(countryData);
 
             res.status(201).json({ data: createCountryData, message: 'created' });
         } catch (error) {
@@ -41,7 +41,7 @@ class CountriesController {
         try {
             const countryId: string = req.params.id;
             const countryData: Country = req.body;
-            const updateCountryData: Country = await this.countryService.updateCountry(countryId, countryData);
+            const updateCountryData: Country = await this.countries.updateCountry(countryId, countryData);
 
             res.status(200).json({ data: updateCountryData, message: 'updated' });
         } catch (error) {
@@ -52,7 +52,7 @@ class CountriesController {
     public deleteCountry = async (req: Request, res: Response, next: NextFunction) => {
         try {
             const countryId: string = req.params.id;
-            const deleteCountryData: Country = await this.countryService.deleteCountry(countryId);
+            const deleteCountryData: Country = await this.countries.deleteCountry(countryId);
 
             res.status(200).json({ data: deleteCountryData, message: 'deleted' });
         } catch (error) {
