@@ -15,9 +15,9 @@ class DrugsRoute implements Routes {
         this.router.get(`${this.path}`, this.drugs.getAllDrugs);
         this.router.get(`${this.path}/count`, this.drugs.getAllDrugsCount);
         this.router.get(`${this.path}/page/:number/count/:count`, this.drugs.getAllDrugsPage);
-        this.router.get(`/:country${this.path}`, this.drugs.getDrugsByCountry);
-        this.router.get(`/:country${this.path}/count`, this.drugs.getDrugsCountByCountry);
-        this.router.get(`/:country${this.path}/page/:number/count/:count`, this.drugs.getDrugsPageByCountry);
+        this.router.get(`/:countryId${this.path}`, this.drugs.getDrugsByCountry);
+        this.router.get(`/:countryId${this.path}/count`, this.drugs.getDrugsCountByCountry);
+        this.router.get(`/:countryId${this.path}/page/:number/count/:count`, this.drugs.getDrugsPageByCountry);
         this.router.get(`${this.path}/:id`, this.drugs.getDrugById);
         this.router.post(`${this.path}`, this.drugs.createDrug);
         this.router.post(`${this.path}/list`, this.drugs.getDrugsByIds);

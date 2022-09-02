@@ -12,7 +12,7 @@ class CountriesRoute implements Routes {
     }
 
     private initializeRoutes() {
-        this.router.get(`${this.path}`, this.countries.getCountries);
+        this.router.get(`${this.path}`, this.countries.getAllCountries);
         this.router.get(`${this.path}/:id`, this.countries.getCountryById);
         this.router.post(`${this.path}`, this.countries.createCountry);
         this.router.put(`${this.path}/:id`, this.countries.updateCountry);
