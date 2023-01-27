@@ -3,13 +3,13 @@ import { Country } from '@interfaces/countries.interface';
 import CountriesService from '@services/countries.service';
 
 class CountriesController {
-    public countryService = new CountriesService();
+    public countries = new CountriesService();
 
-    public getCountries = async (req: Request, res: Response, next: NextFunction) => {
+    public getAllCountries = async (req: Request, res: Response, next: NextFunction) => {
         try {
-            const findAllCountriesData: Array<Country> = await this.countryService.findAllCountries();
+            const data: Array<Country> = await this.countries.findAllCountries();
 
-            res.status(200).json({ data: findAllCountriesData, message: 'findAll' });
+            res.status(200).json({ data, message: 'findAllCountries' });
         } catch (error) {
             next(error);
         }
@@ -17,10 +17,10 @@ class CountriesController {
 
     public getCountryById = async (req: Request, res: Response, next: NextFunction) => {
         try {
-            const countryId: string = req.params.id;
-            const findOneCountryData: Country = await this.countryService.findCountryById(countryId);
+            const { id } = req.params;
+            const data: Country = await this.countries.findCountryById(id);
 
-            res.status(200).json({ data: findOneCountryData, message: 'findOne' });
+            res.status(200).json({ data, message: 'findCountryById' });
         } catch (error) {
             next(error);
         }
@@ -29,9 +29,9 @@ class CountriesController {
     public createCountry = async (req: Request, res: Response, next: NextFunction) => {
         try {
             const countryData: Country = req.body;
-            const createCountryData: Country = await this.countryService.createCountry(countryData);
+            const data: Country = await this.countries.createCountry(countryData);
 
-            res.status(201).json({ data: createCountryData, message: 'created' });
+            res.status(201).json({ data, message: 'createCountry' });
         } catch (error) {
             next(error);
         }
@@ -39,11 +39,11 @@ class CountriesController {
 
     public updateCountry = async (req: Request, res: Response, next: NextFunction) => {
         try {
-            const countryId: string = req.params.id;
+            const { id } = req.params;
             const countryData: Country = req.body;
-            const updateCountryData: Country = await this.countryService.updateCountry(countryId, countryData);
+            const data: Country = await this.countries.updateCountry(id, countryData);
 
-            res.status(200).json({ data: updateCountryData, message: 'updated' });
+            res.status(200).json({ data, message: 'updateCountry' });
         } catch (error) {
             next(error);
         }
@@ -51,10 +51,10 @@ class CountriesController {
 
     public deleteCountry = async (req: Request, res: Response, next: NextFunction) => {
         try {
-            const countryId: string = req.params.id;
-            const deleteCountryData: Country = await this.countryService.deleteCountry(countryId);
+            const { id } = req.params;
+            const data: Country = await this.countries.deleteCountry(id);
 
-            res.status(200).json({ data: deleteCountryData, message: 'deleted' });
+            res.status(200).json({ data, message: 'deleteCountry' });
         } catch (error) {
             next(error);
         }
