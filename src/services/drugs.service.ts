@@ -82,6 +82,44 @@ class DrugsService {
 
         return deletedCount;
     }
+
+    public async findDrugsByActiveSubstance(activeSubstance: string): Promise<Array<Drug>> {
+        if (isEmpty(activeSubstance)) throw new HttpException(400, 'Active substance is empty');
+
+        const findDrugs: Array<Drug> = await drugs.find({
+            composition: {
+                $elemMatch: {
+                    name: { $regex: activeSubstance },
+                    activeSubstance: true
+                }
+            }
+        });
+        if (!findDrugs) throw new HttpException(409, 'Drugs doesn\'t exist');
+
+        return findDrugs;
+    }
+
+    public async countDrugsByActiveSubstance(activeSubstance: string): Promise<number> {
+        return drugs.countDocuments({
+            composition: {
+                $elemMatch: {
+                    name: { $regex: activeSubstance },
+                    activeSubstance: true
+                }
+            }
+        });
+    }
+
+    public async findDrugsPageByActiveSubstance(activeSubstance: string, skip: number, limit: number): Promise<Array<Drug>> {
+        return drugs.find({
+            composition: {
+                $elemMatch: {
+                    name: { $regex: activeSubstance },
+                    activeSubstance: true
+                }
+            }
+        }).skip(skip).limit(limit);
+    }
 }
 
 export default DrugsService;

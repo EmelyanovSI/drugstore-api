@@ -142,6 +142,43 @@ class DrugsController {
             next(error);
         }
     };
+
+    public getDrugsByActiveSubstance = async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const { activeSubstance } = req.params;
+            const data: Array<Drug> = await this.drugs.findDrugsByActiveSubstance(activeSubstance);
+
+            res.status(200).json({ data, message: 'findDrugsByActiveSubstance' });
+        } catch (error) {
+            next(error);
+        }
+    };
+
+    public getDrugsCountByActiveSubstance = async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const activeSubstance: string = req.params.activeSubstance;
+            const data: number = await this.drugs.countDrugsByActiveSubstance(activeSubstance);
+
+            res.status(200).json({ data, message: 'countDrugsByActiveSubstance' });
+        } catch (error) {
+            next(error);
+        }
+    };
+
+    public getDrugsPageByActiveSubstance = async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const { activeSubstance } = req.params;
+            const pageNumber: number = +req.params.number;
+            const listCount: number = +req.params.count;
+            const skipCount: number = pageNumber * listCount;
+            const count: number = await this.drugs.countDrugsByActiveSubstance(activeSubstance);
+            const drugs: Array<Drug> = await this.drugs.findDrugsPageByActiveSubstance(activeSubstance, skipCount, listCount);
+
+            res.status(200).json({ data: { count, drugs }, message: 'findDrugsPageByActiveSubstance' });
+        } catch (error) {
+            next(error);
+        }
+    };
 }
 
 export default DrugsController;

@@ -24,6 +24,9 @@ class DrugsRoute implements Routes {
         this.router.post(`${this.path}/delete`, this.drugs.deleteDrugsByIds);
         this.router.put(`${this.path}/:id`, this.drugs.updateDrug);
         this.router.delete(`${this.path}/:id`, this.drugs.deleteDrug);
+        this.router.get(`${this.path}/activeSubstance/:activeSubstance`, this.drugs.getDrugsByActiveSubstance);
+        this.router.get(`${this.path}/activeSubstance/:activeSubstance/count`, this.drugs.getDrugsCountByActiveSubstance);
+        this.router.get(`${this.path}/activeSubstance/:activeSubstance/page/:number/count/:count`, this.drugs.getDrugsPageByActiveSubstance);
     }
 }
 
